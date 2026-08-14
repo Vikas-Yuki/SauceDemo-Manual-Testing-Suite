@@ -1,0 +1,69 @@
+Test Case ID,Module / Feature,Scenario / Description,Test Steps,Expected Result,Actual Result,Status
+TC_LGN_001,Authentication,Verify login with valid credentials,"1. Open SauceDemo URL.
+2. Enter username 'standard_user'.
+3. Enter password 'secret_sauce'.
+4. Click 'Login'.",User is successfully authenticated and redirected to the product inventory page (/inventory.html).,As Expected,PASS
+TC_LGN_002,Authentication,Verify login attempt with a locked-out user account,"1. Open SauceDemo URL.
+2. Enter username 'locked_out_user'.
+3. Enter password 'secret_sauce'.
+4. Click 'Login'.","Login is blocked and error message displays: 'Epic sadface: Sorry, this user has been locked out.'",As Expected,PASS
+TC_LGN_003,Authentication,Verify login attempt with blank username and password,"1. Open SauceDemo URL.
+2. Leave Username and Password fields empty.
+3. Click 'Login'.",Login fails and error message displays: 'Epic sadface: Username is required'.,As Expected,PASS
+TC_LGN_004,Authentication,Verify login attempt with valid username and incorrect password,"1. Open SauceDemo URL.
+2. Enter username 'standard_user'.
+3. Enter password 'invalid_pass'.
+4. Click 'Login'.",Login fails and error message displays: 'Epic sadface: Username and password do not match any user in this service'.,As Expected,PASS
+TC_LGN_005,Authentication,Verify user login with high-latency user account (performance_glitch_user),"1. Open SauceDemo URL.
+2. Enter username 'performance_glitch_user'.
+3. Enter password 'secret_sauce'.
+4. Click 'Login'.",User lands on inventory page after a minor loading delay without crash or failure.,As Expected,PASS
+TC_LGN_006,Authentication,Verify error state user login behavior (error_user),"1. Open SauceDemo URL.
+2. Enter username 'error_user'.
+3. Enter password 'secret_sauce'.
+4. Click 'Login'.",User logs in successfully to inventory page; specific unexpected component behaviors can be monitored.,As Expected,PASS
+Product Catalog Functionalities ,,,,,,
+TC_CAT_001,Product Catalog,Verify layout and display of all inventory items upon page load,"1. Log in as 'standard_user'.
+2. Observe the inventory grid on /inventory.html.","All 6 products are displayed with valid images, titles, descriptions, prices, and 'Add to cart' buttons.",As Expected,PASS
+TC_CAT_002,Product Catalog,Verify product list sorting by Name (A to Z),"1. Click on product sort dropdown.
+2. Select 'Name (A to Z)'.",Products dynamically re-order alphabetically in ascending order from A to Z.,As Expected,PASS
+TC_CAT_003,Product Catalog,Verify product list sorting by Name (Z to A),"1. Click on product sort dropdown.
+2. Select 'Name (Z to A)'.",Products dynamically re-order alphabetically in descending order from Z to A.,As Expected,PASS
+TC_CAT_004,Product Catalog,Verify product list sorting by Price (low to high),"1. Click on product sort dropdown.
+2. Select 'Price (low to high)'.",Products re-order based on price starting from lowest ($7.99) to highest ($49.99).,As Expected,PASS
+TC_CAT_005,Product Catalog,Verify product list sorting by Price (high to low),"1. Click on product sort dropdown.
+2. Select 'Price (high to low)'.",Products re-order based on price starting from highest ($49.99) to lowest ($7.99).,As Expected,PASS
+TC_PDT_006,Product Catalog,Verify clicking product title opens Product Details page,"1. On catalog page, click on 'Sauce Labs Backpack' title link.","Navigation redirects to /inventory-item.html showing enlarged image, full description, price, and 'Back to products' button.",As Expected,PASS
+TC_PDT_007,Product Catalog,Verify adding item to cart directly from Product Details page,"1. Navigate to product details page for 'Sauce Labs Backpack'.
+2. Click 'Add to cart'.","Button label changes to 'Remove', and shopping cart badge counter increases to 1.",As Expected,PASS
+Cart Functionalities,,,,,,
+TC_CRT_001,Shopping Cart,Verify adding multiple products to cart updates badge count dynamically,"1. Click 'Add to cart' on Sauce Labs Backpack.
+2. Click 'Add to cart' on Sauce Labs Bike Light.",Cart badge icon at top right updates count to display '2'.,As Expected,PASS
+TC_CRT_002,Shopping Cart,Verify removing an item from cart updates badge count,"1. Add 2 items to cart.
+2. Click 'Remove' button on one item.","Selected item is removed, button reverts to 'Add to cart', and cart badge count decreases to '1'.",As Expected,PASS
+TC_CRT_003,Shopping Cart,Verify navigating to Cart page displays accurate selected items,"1. Add 'Sauce Labs Backpack' to cart.
+2. Click shopping cart icon.","Cart page (/cart.html) opens displaying item title, quantity (1), and price ($29.99).",As Expected,PASS
+TC_CRT_004,Shopping Cart,Verify 'Continue Shopping' button functionality in Cart page,"1. From Cart page, click 'Continue Shopping' button.",User is redirected back to product inventory catalog page (/inventory.html) retaining added items.,As Expected,PASS
+CheckOut Functionalities,,,,,,
+TC_CKO_001,Checkout - Step 1,Verify successful navigation to Checkout Step One page,"1. In Cart page with items added, click 'Checkout' button.",User lands on Checkout: Your Information page (/checkout-step-one.html).,As Expected,PASS
+TC_CKO_002,Checkout - Step 1,Verify checkout progression with valid customer details,"1. Fill First Name: 'Vikas'.
+2. Fill Last Name: 'Kumar'.
+3. Fill Zip/Postal Code: '560001'.
+4. Click 'Continue'.",Information is submitted successfully and user advances to Checkout Step Two (/checkout-step-two.html).,As Expected,PASS
+TC_CKO_003,Checkout - Step 1,Verify checkout validation error when mandatory field (Zip Code) is missing,"1. Fill First Name: 'Vikas'.
+2. Fill Last Name: 'Kumar'.
+3. Leave Zip/Postal Code empty.
+4. Click 'Continue'.",System blocks submission and displays error message: 'Error: Postal Code is required'.,As Expected,PASS
+TC_CKO_004,Checkout - Step 1,Verify 'Cancel' button on Checkout Step One returns to Cart page,"1. On Checkout Step One page, click 'Cancel' button.",User is redirected back to Cart page (/cart.html) with cart contents intact.,As Expected,PASS
+TC_CKO_005,Checkout - Step 2,"Verify Checkout Overview displays correct product details, price calculation, and tax","1. Add 'Sauce Labs Backpack' ($29.99) and 'Sauce Labs Bike Light' ($9.99) to cart.
+2. Proceed through Checkout Step 1.
+3. Inspect Checkout Overview page.","Overview page lists both items, Item Total ($39.98), calculated Tax ($3.20), and Total Price ($43.18) accurately.",As Expected,PASS
+TC_CKO_006,Checkout - Step 2,Verify 'Cancel' button on Checkout Overview page cancels transaction,"1. On Checkout Step Two page, click 'Cancel' button.",Transaction is aborted and user is redirected back to Product Catalog page (/inventory.html).,As Expected,PASS
+TC_CKO_007,Checkout - Complete,Verify order completion and confirmation screen display,"1. On Checkout Overview page, click 'Finish' button.",Order is placed successfully; redirected to /checkout-complete.html showing 'Thank you for your order!' and dispatch message.,As Expected,PASS
+TC_CKO_008,Checkout - Complete,Verify 'Back Home' button resets cart state after order completion,"1. On Checkout Complete page, click 'Back Home' button.",User is redirected to inventory page; shopping cart badge counter is cleared and reset to 0.,As Expected,PASS
+Global Menu & Navigation Functionalities,,,,,,
+TC_APP_001,Burger Menu & Session,Verify 'Reset App State' clears shopping cart and session state,"1. Add items to cart.
+2. Open Burger Menu.
+3. Click 'Reset App State'.",Shopping cart badge count is immediately cleared to 0 and application state resets.,As Expected,PASS
+TC_APP_002,Burger Menu & Session,Verify 'Logout' functionality clears session and redirects to Login page,"1. Open Burger Menu from any internal page.
+2. Click 'Logout'.",User session is destroyed and user is redirected back to the primary Login page (/index.html).,As Expected,PASS
